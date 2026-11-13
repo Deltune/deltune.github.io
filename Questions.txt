@@ -1,0 +1,50 @@
+Animals / Animaux : 
+- Name dog breeds / Cite des races de chien
+- Name birds / Cite des oiseaux
+- Name reptiles / Cite des reptiles
+- Name marine animals / Cite des animaux marins
+- Name dinosaurs / Cite des dinosaures
+
+Food / Cuisine :
+- Name types of pasta / Cite des types de pâtes
+- Name cheeses / Cite des fromages
+- Name alcoholic drinks / Cite des alcools
+
+General Knowledge / Culture Générale :
+- Name car brands / Cite des marques de voiture
+
+Geography / Géographie :
+- Name countries that were once part of the French colonial empire / Cite des pays ayant fait partie de l'empire colonial français
+- Name countries that were once part of the British Empire / Cite des pays ayant fait partie de l'empire colonial britannique
+- Name countries with more than 50 million inhabitants / Cite des pays qui ont plus de 50 millions d'habitants
+- Name countries where Spanish is an official language / Cite des pays où l'espagnol est une langue officielle
+- Name landlocked countries / Cite des pays enclavés,
+- Name island countries (not connected to a continent) / Cite des pays insulaires (non reliés à un continent)
+
+Nature :
+- Name flowers / Cite des fleurs
+
+Science :
+- Name elements from the periodic table / Cite des éléments du tableau périodique
+- Name diseases / Cite des maladies
+
+Sport : 
+- Name clubs that have won the Champions League / Cite des clubs ayant gagné la Ligue des champions
+- Name men's players who have won the Ballon d'Or / Cite des joueurs ayant gagné le Ballon d'or masculin
+- Name countries that have hosted the men's FIFA World Cup / Cite des pays ayant accueilli la Coupe du monde masculine de la FIFA
+- Name cities that have hosted the Olympic Games (Summer or Winter) / Cite des villes ayant accueilli les Jeux olympiques (d'été ou d'hiver)
+
+Technology / Technologie :
+- Name programming or markup languages / Cite des langages de programmation ou de balisage
+- Name web browsers / Cite des navigateurs web
+
+Video Games / Jeux Vidéos : 
+- Name Pokémon starters / Cite des starters Pokémon
+- Name Legendary or Mythical Pokémon / Cite des Pokémon légendaires ou fabuleux
+- Name Nintendo games / Cite des jeux Nintendo
+- Name Minecraft mobs / Cite des mobs Minecraft
+- Name rhythm games / Cite des jeux de rythme
+- Name tower defense games / Cite des tower defense
+- Name FPS games / Cite des FPS
+- Name TPS games / Cite des TPS
+- Name gacha games / Cite des jeux gacha

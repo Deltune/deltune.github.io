@@ -1,0 +1,422 @@
+/* Doublon : interface sobre, les réponses sont les vedettes. */
+@font-face {
+  font-family: "Nunito";
+  src: url("fonts/nunito.woff2") format("woff2");
+  font-weight: 200 1000;
+  font-display: swap;
+}
+
+:root {
+  --bg: #101c3a;
+  --card: #182855;
+  --card-line: rgba(255, 244, 218, 0.14);
+  --cream: #fff4da;
+  --ink: #0b1226;
+  --muted: rgba(255, 244, 218, 0.74);
+  --line: rgba(255, 244, 218, 0.22);
+  --gold: #ffc83d;
+
+  /* Les cinq raretés : légendaire (or), épique (rose), rare (bleu), peu courant (vert), commun (gris) */
+  --t1: #ffc83d; --t1-d: #d98f0c;
+  --t2: #ff8fd0; --t2-d: #c04b92;
+  --t3: #8cc4ff; --t3-d: #3f7fc4;
+  --t4: #8ee6bb; --t4-d: #3f9c74;
+  --t5: #a7b0c4; --t5-d: #626c85;
+  /* pièce scellée / réponse non reconnue */
+  --t0: #7d86a3; --t0-d: #4a5370;
+
+  --display: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(60rem 28rem at 50% -8%, rgba(255, 200, 61, 0.14), transparent 65%),
+    radial-gradient(42rem 30rem at 105% 105%, rgba(255, 143, 208, 0.10), transparent 60%),
+    radial-gradient(36rem 26rem at -10% 60%, rgba(140, 196, 255, 0.08), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--cream);
+  font-family: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.5;
+  padding: env(safe-area-inset-top) 18px env(safe-area-inset-bottom);
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* ----- En-tête ----- */
+.logo {
+  max-width: 520px; margin: 0 auto; padding: 18px 0 0;
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--display); font-weight: 900; font-size: 1.5rem; line-height: 1; color: var(--gold);
+}
+.mini-coin { width: 28px; height: 28px; flex: none; }
+#userbar {
+  max-width: 520px; margin: 6px auto 0;
+  display: flex; gap: 12px; align-items: baseline;
+  color: var(--muted); font-size: 0.85rem;
+}
+.link {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--gold); font: inherit; font-weight: 800;
+  text-decoration: underline; text-underline-offset: 3px;
+}
+main { max-width: 520px; margin: 0 auto; padding: 22px 0 64px; }
+section { display: flex; flex-direction: column; gap: 16px; }
+
+/* ----- Titres ----- */
+h1, h2, h3 { text-wrap: balance; }
+h1, h2, .prompt, .big-code { font-family: var(--display); font-weight: 900; }
+h1 { margin: 4px 0 0; font-size: clamp(2.3rem, 10.5vw, 3.2rem); line-height: 1.05; }
+h2 { margin: 6px 0 0; font-size: 1.4rem; line-height: 1.15; }
+h3 { margin: 16px 0 0; font-size: 1.1rem; font-weight: 800; }
+.lead { margin: 0 0 4px; color: var(--muted); max-width: 44ch; }
+.muted { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+/* ----- Formulaires et boutons ----- */
+label { display: flex; flex-direction: column; gap: 6px; color: var(--muted); font-size: 0.9rem; font-weight: 700; }
+input {
+  font: inherit; font-weight: 800; width: 100%; min-height: 54px;
+  background: var(--cream); color: var(--ink);
+  border: 0; border-radius: 12px; padding: 12px 16px;
+}
+input::placeholder { color: rgba(11, 18, 38, 0.45); font-weight: 700; }
+input:disabled { opacity: 0.5; }
+.row { display: flex; gap: 10px; }
+.row input { flex: 1; min-width: 0; }
+#code { max-width: 170px; text-transform: uppercase; text-align: center; letter-spacing: 0.3em; }
+
+.btn {
+  font-family: var(--display); font-weight: 900; font-size: 1.1rem; cursor: pointer;
+  background: var(--card); color: var(--cream);
+  border: 0; border-radius: 12px; padding: 12px 22px; min-height: 54px;
+  box-shadow: inset 0 0 0 2px var(--line);
+  transition: transform 0.08s;
+}
+.btn:active { transform: scale(0.98); }
+.btn.primary { background: var(--gold); color: var(--ink); box-shadow: none; }
+.btn.ghost { background: transparent; font-size: 1rem; }
+.or { margin-top: 6px; color: var(--muted); font-size: 0.9rem; font-weight: 700; }
+
+.rules { margin-top: 6px; padding: 12px 16px; border-radius: 12px; background: var(--card); color: var(--muted); }
+.rules summary { cursor: pointer; font-weight: 800; color: var(--cream); }
+.rules ol { margin: 10px 0 0; padding-left: 20px; }
+.rules li + li { margin-top: 4px; }
+
+/* ----- Salon ----- */
+.big-code { margin: 0 0 4px; font-size: clamp(4.2rem, 22vw, 6rem); line-height: 1.05; letter-spacing: 0.08em; color: var(--gold); }
+.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chips li {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--card); border: 1px solid var(--card-line);
+  border-radius: 999px; padding: 5px 14px; font-weight: 800;
+}
+.chips li.me { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+.chips button { background: none; border: 0; padding: 0 2px; cursor: pointer; color: inherit; font: inherit; opacity: 0.6; }
+
+/* ----- Manche : chaque réponse tapée est une pièce scellée ----- */
+.topline { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-weight: 800; }
+.tag { background: var(--card); border: 1px solid var(--card-line); border-radius: 999px; padding: 1px 12px; font-size: 0.85rem; color: var(--cream); }
+.prompt { margin: 6px 0 4px; font-size: clamp(2rem, 9vw, 2.6rem); line-height: 1.08; }
+.prompt.small { font-size: 1.6rem; }
+.timer { position: relative; height: 40px; overflow: hidden; background: var(--card); border-radius: 12px; }
+#timebar { height: 100%; width: 100%; background: var(--gold); transition: width 0.25s linear; }
+#timer {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--display); font-weight: 900; font-size: 1.2rem; color: var(--cream);
+  -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill; font-variant-numeric: tabular-nums;
+}
+.vault-head { display: flex; justify-content: space-between; align-items: baseline; margin-top: 8px; }
+.vault-head h3 { margin: 0; }
+/* Total des points en direct */
+#answer-count { display: flex; align-items: baseline; gap: 10px; color: var(--muted); font-size: 0.9rem; font-weight: 800; }
+#answer-count b { color: var(--gold); font-family: var(--display); font-weight: 900; font-size: 1.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.vault { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+/* Chaque réponse du coffre : une pièce à la couleur de sa rareté, son nom, sa rareté et ses points */
+.vault li {
+  --face: var(--t0); --dark: var(--t0-d);
+  display: flex; align-items: center; gap: 12px;
+  background: var(--card); border: 1px solid var(--card-line); border-radius: 12px;
+  padding: 9px 14px;
+}
+.vault li.t1 { --face: var(--t1); --dark: var(--t1-d); border-color: rgba(255, 200, 61, 0.55); background: linear-gradient(100deg, rgba(255, 200, 61, 0.16), var(--card) 70%); }
+.vault li.t2 { --face: var(--t2); --dark: var(--t2-d); border-color: rgba(255, 143, 208, 0.45); }
+.vault li.t3 { --face: var(--t3); --dark: var(--t3-d); border-color: rgba(140, 196, 255, 0.4); }
+.vault li.t4 { --face: var(--t4); --dark: var(--t4-d); }
+.vault li.t5 { --face: var(--t5); --dark: var(--t5-d); }
+.vault li.t0 { opacity: 0.7; }
+.vault li::before {
+  content: ""; flex: none; width: 32px; height: 32px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 15px; font-weight: 900; color: var(--ink);
+  background: radial-gradient(circle, var(--face) 0 48%, var(--dark) 49% 60%, var(--face) 61%);
+  border: 3px solid var(--ink);
+}
+.vault li.t1::before { content: "★"; }
+.vault li.t0::before { content: "✕"; font-size: 13px; }
+.vault .main { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.2; }
+.vault .name { font-size: 1.1rem; font-weight: 800; overflow-wrap: anywhere; }
+.vault .tier { font-size: 0.8rem; font-weight: 800; color: var(--face); }
+.vault .pts { font-family: var(--display); font-weight: 900; font-size: 1.1rem; color: var(--face); white-space: nowrap; }
+.vault li.empty { display: block; background: none; border: 2px dashed var(--line); color: var(--muted); font-size: 0.95rem; font-weight: 700; opacity: 1; }
+.vault li.empty::before { display: none; }
+.vault li.new { animation: drop 0.35s cubic-bezier(0.3, 1.4, 0.5, 1); }
+@keyframes drop { from { transform: translateY(-14px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ----- Résultats : une pièce par réponse, sa couleur dit sa rareté ----- */
+.res-list { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.res-list li {
+  --face: var(--t0); --dark: var(--t0-d);
+  display: grid; grid-template-columns: 52px 1fr; align-items: center;
+  background: var(--card); border: 1px solid var(--card-line); border-radius: 14px; padding: 12px 14px;
+}
+.res-list li.t1 { --face: var(--t1); --dark: var(--t1-d); border-color: rgba(255, 200, 61, 0.55); background: linear-gradient(100deg, rgba(255, 200, 61, 0.16), var(--card) 70%); }
+.res-list li.t2 { --face: var(--t2); --dark: var(--t2-d); border-color: rgba(255, 143, 208, 0.45); }
+.res-list li.t3 { --face: var(--t3); --dark: var(--t3-d); border-color: rgba(140, 196, 255, 0.4); }
+.res-list li.t4 { --face: var(--t4); --dark: var(--t4-d); }
+.res-list li.t5 { --face: var(--t5); --dark: var(--t5-d); }
+.res-list li.t0 { opacity: 0.7; }
+.res-list li > * { grid-column: 2; }
+.res-list li::before {
+  content: ""; grid-row: 1 / span 3; grid-column: 1; align-self: center; justify-self: start;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: radial-gradient(circle, var(--face) 0 48%, var(--dark) 49% 60%, var(--face) 61%);
+  border: 3px solid var(--ink);
+  display: grid; place-items: center; font-size: 16px; color: var(--ink);
+}
+.res-list li.t1::before { content: "★"; }
+.res-list li.t0::before { content: "✕"; font-size: 14px; font-weight: 900; }
+.res-list li.mine { outline: 2px solid var(--cream); outline-offset: 3px; }
+.res-list .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.res-list .ans { font-size: 1.2rem; font-weight: 900; }
+.res-list .pts { font-family: var(--display); font-weight: 900; font-size: 1.1rem; color: var(--face); white-space: nowrap; }
+.res-list .badge { font-size: 0.85rem; font-weight: 800; color: var(--face); }
+.res-list .who { font-size: 0.9rem; color: var(--muted); }
+
+/* Révélation : les pièces sont dévoilées une à une, la plus rare en dernier */
+.res-list.reveal li { animation: uncork 0.45s calc(var(--i, 0) * 0.22s) cubic-bezier(0.2, 1.1, 0.4, 1) both; }
+@keyframes uncork { from { opacity: 0; transform: translateY(14px) scale(0.97); } to { opacity: 1; transform: none; } }
+
+/* ----- Résultats : top 3 à gauche, classement à droite (pas de défilement) ----- */
+/* Sur ordinateur, la page s'élargit pendant les résultats pour que rien ne passe à la ligne */
+body:has(#results:not([hidden])) .logo,
+body:has(#results:not([hidden])) #userbar,
+body:has(#results:not([hidden])) main { max-width: 880px; }
+.res-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.res-grid h3 { margin: 0 0 14px; font-size: 1rem; }
+.res-grid .res-list { margin: 0; gap: 14px; }
+.res-grid .res-list .ans { overflow-wrap: break-word; }
+.res-grid .board li { padding: 13px 0; gap: 8px; }
+.res-grid .board li::before { width: 1.1em; }
+.res-grid .board li span:first-of-type { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 520px) {
+  .res-grid .res-list li { display: grid; grid-template-columns: 1fr auto; align-items: baseline; row-gap: 6px; padding: 14px 14px 12px; }
+  .res-grid .res-list li::before { display: none; }
+  .res-grid .res-list .head { display: contents; }
+  .res-grid .res-list .ans { grid-column: 1 / -1; grid-row: 1; font-size: 1.05rem; line-height: 1.2; overflow-wrap: anywhere; }
+  .res-grid .res-list .badge { grid-column: 1; grid-row: 2; }
+  .res-grid .res-list .pts { grid-column: 2; grid-row: 2; }
+  .res-grid .res-list .who { grid-column: 1 / -1; grid-row: 3; }
+  /* classement : rang à gauche, le prénom puis le score en dessous (colonne étroite) */
+  .res-grid .board li { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 8px; row-gap: 2px; align-items: baseline; padding: 12px 0; }
+  .res-grid .board li::before { grid-row: 1 / span 2; }
+  .res-grid .board li span:first-of-type { grid-column: 2; }
+  .res-grid .board li span:last-child { grid-column: 2; font-size: 1.05rem; color: var(--gold); text-align: left; min-width: 0; }
+  .res-grid .board li .gain { display: none; }
+}
+
+/* ----- Classement ----- */
+.board { list-style: none; counter-reset: rank; margin: 0; padding: 0; }
+.board li {
+  counter-increment: rank; display: flex; align-items: baseline; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--line); font-weight: 800;
+}
+.board li::before { content: counter(rank); width: 1.5em; font-family: var(--display); font-weight: 900; color: var(--gold); }
+.board li span:first-of-type { flex: 1; }
+.board li span:last-child { font-family: var(--display); font-weight: 900; font-variant-numeric: tabular-nums; }
+.board li .gain { font-family: var(--display); font-weight: 900; font-size: 0.95rem; color: var(--gold); font-variant-numeric: tabular-nums; }
+.board li .gain.zero { color: var(--muted); }
+.board li .gain + span { min-width: 3.2em; text-align: right; }
+.board li.me span:first-of-type { flex: 0 1 auto; margin-right: auto; background: var(--gold); color: var(--ink); border-radius: 8px; padding: 0 8px; }
+.board.big li { font-size: 1.25rem; }
+.board.big li:first-child { background: var(--gold); color: var(--ink); border: 0; border-radius: 14px; padding: 16px; margin-bottom: 10px; }
+.board.big li:first-child::before { content: "★"; color: var(--ink); }
+.board.big li:first-child.me span:first-of-type { background: var(--ink); color: var(--gold); }
+
+/* ----- Divers ----- */
+#toast {
+  position: fixed; left: 50%; bottom: 24px; max-width: 90vw;
+  transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+  background: var(--cream); color: var(--ink); font-weight: 900;
+  border-radius: 12px; padding: 12px 18px; text-align: center;
+  transition: opacity 0.25s, transform 0.25s;
+}
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
+code { background: var(--card); padding: 2px 6px; border-radius: 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .res-list.reveal li, .vault li.new { animation: none; }
+  .btn, #timebar, #toast { transition: none; }
+}
+
+
+/* ----- Décor : pièces flottantes en fond ----- */
+.bg-coins { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.bg-coins svg { position: absolute; width: 46px; height: 46px; opacity: 0.16; animation: floaty 9s ease-in-out infinite; }
+.bg-coins .c1 { left: 6%;  top: 14%; }
+.bg-coins .c2 { left: 88%; top: 22%; width: 34px; height: 34px; animation-delay: -2s; }
+.bg-coins .c3 { left: 14%; top: 64%; width: 58px; height: 58px; animation-delay: -4s; }
+.bg-coins .c4 { left: 80%; top: 70%; animation-delay: -6s; }
+.bg-coins .c5 { left: 48%; top: 90%; width: 30px; height: 30px; animation-delay: -1s; }
+.bg-coins .c6 { left: 70%; top: 6%;  width: 28px; height: 28px; animation-delay: -5s; }
+.bg-coins .c7 { left: 30%; top: 38%; width: 26px; height: 26px; animation-delay: -3s; opacity: 0.1; }
+.bg-coins .c8 { left: 94%; top: 48%; width: 40px; height: 40px; animation-delay: -7s; opacity: 0.1; }
+.bg-coins .t1 { --face: var(--t1); --dark: var(--t1-d); }
+.bg-coins .t2 { --face: var(--t2); --dark: var(--t2-d); }
+.bg-coins .t3 { --face: var(--t3); --dark: var(--t3-d); }
+.bg-coins .t4 { --face: var(--t4); --dark: var(--t4-d); }
+.bg-coins .t5 { --face: var(--t5); --dark: var(--t5-d); }
+@keyframes floaty { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-16px) rotate(8deg); } }
+.logo, #userbar, main { position: relative; z-index: 1; }
+
+/* ----- Les cinq raretés (accueil et connexion) ----- */
+.rarities { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 6px 0 10px; }
+.rarities span {
+  display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center;
+  padding: 12px 4px 10px; border-radius: 14px;
+  background: var(--card); border: 1px solid var(--card-line);
+  animation: rise 0.5s both;
+}
+.rarities span:nth-child(2) { animation-delay: 0.07s; }
+.rarities span:nth-child(3) { animation-delay: 0.14s; }
+.rarities span:nth-child(4) { animation-delay: 0.21s; }
+.rarities span:nth-child(5) { animation-delay: 0.28s; }
+.rarities svg { width: 34px; height: 34px; margin-bottom: 4px; }
+.rarities b { font-family: var(--display); font-weight: 900; font-size: 1.15rem; line-height: 1; color: var(--face); }
+.rarities i { font-style: normal; font-size: 0.68rem; font-weight: 800; color: var(--muted); line-height: 1.15; }
+.rarities .t1 { --face: var(--t1); --dark: var(--t1-d); border-color: rgba(255, 200, 61, 0.55); background: linear-gradient(160deg, rgba(255, 200, 61, 0.18), var(--card) 70%); }
+.rarities .t2 { --face: var(--t2); --dark: var(--t2-d); }
+.rarities .t3 { --face: var(--t3); --dark: var(--t3-d); }
+.rarities .t4 { --face: var(--t4); --dark: var(--t4-d); }
+.rarities .t5 { --face: var(--t5); --dark: var(--t5-d); }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+#login, #home { animation: rise 0.45s both; }
+.btn.primary { box-shadow: 0 4px 0 #c08a0c; transition: transform 0.08s, box-shadow 0.08s; }
+.btn.primary:hover { transform: translateY(-1px); box-shadow: 0 5px 0 #c08a0c; }
+.btn.primary:active { transform: translateY(3px); box-shadow: 0 1px 0 #c08a0c; }
+
+/* ----- Salon : joueurs avec leur pièce-avatar ----- */
+.chips li { animation: pop 0.35s cubic-bezier(0.3, 1.5, 0.5, 1) both; }
+.av {
+  display: grid; place-items: center; width: 26px; height: 26px; margin-left: -6px; border-radius: 50%;
+  background: hsl(var(--h) 75% 68%); color: var(--ink); border: 2px solid var(--ink);
+  font-size: 0.85rem; font-weight: 900; line-height: 1;
+}
+@keyframes pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+.big-code { text-shadow: 0 4px 0 rgba(0, 0, 0, 0.25); }
+.dots i { font-style: normal; animation: blink 1.2s infinite; }
+.dots i:nth-child(2) { animation-delay: 0.2s; }
+.dots i:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%, 60%, 100% { opacity: 0.2; } 30% { opacity: 1; } }
+
+/* ----- Manche : chrono qui s'énerve, total qui rebondit, pièce légendaire qui brille ----- */
+.timer.hurry #timebar { background: #ff7a6b; animation: hurry 0.7s ease-in-out infinite; }
+@keyframes hurry { 50% { filter: brightness(1.25); } }
+#answer-count b.bump { display: inline-block; animation: bump 0.4s cubic-bezier(0.3, 1.6, 0.5, 1); }
+@keyframes bump { 0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); } }
+.vault li.new.t1 { animation: drop 0.35s cubic-bezier(0.3, 1.4, 0.5, 1), glow 1.2s ease-out; }
+.vault li.new.t2 { animation: drop 0.35s cubic-bezier(0.3, 1.4, 0.5, 1), glow2 0.9s ease-out; }
+@keyframes glow { 0% { box-shadow: 0 0 0 0 rgba(255, 200, 61, 0.9); } 100% { box-shadow: 0 0 0 22px rgba(255, 200, 61, 0); } }
+@keyframes glow2 { 0% { box-shadow: 0 0 0 0 rgba(255, 143, 208, 0.8); } 100% { box-shadow: 0 0 0 16px rgba(255, 143, 208, 0); } }
+
+/* ----- Confettis ----- */
+.confetti { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 5; }
+.confetti span {
+  position: absolute; top: -14px; width: 9px; height: 14px; border-radius: 2px;
+  animation: fall linear forwards;
+}
+@keyframes fall { to { transform: translate(var(--dx), 110vh) rotate(var(--r)); opacity: 0.9; } }
+
+@media (max-width: 380px) { .rarities i { font-size: 0.6rem; } .rarities b { font-size: 1rem; } }
+@media (prefers-reduced-motion: reduce) {
+  .bg-coins svg, .rarities span, #login, #home, .chips li, .dots i, .timer.hurry #timebar,
+  #answer-count b.bump, .vault li.new.t1, .vault li.new.t2 { animation: none; }
+}
+
+/* ----- Interrupteur de langue EN / FR (en haut à droite) ----- */
+.lang {
+  position: relative; cursor: pointer; display: grid; grid-template-columns: 1fr 1fr;
+  padding: 3px; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--line);
+  font: inherit; font-size: 0.8rem; font-weight: 900; letter-spacing: 0.04em; line-height: 1;
+}
+.lang .opt { position: relative; z-index: 1; width: 40px; padding: 8px 0; text-align: center; color: var(--muted); transition: color 0.2s; }
+.lang .thumb {
+  position: absolute; z-index: 0; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px);
+  border-radius: 999px; background: var(--gold); box-shadow: 0 2px 0 #c08a0c;
+  transition: transform 0.25s cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+.lang:not(.is-fr) .opt:first-of-type, .lang.is-fr .opt:last-of-type { color: var(--ink); }
+.lang.is-fr .thumb { transform: translateX(100%); }
+.lang:active .thumb { filter: brightness(0.95); }
+@media (prefers-reduced-motion: reduce) { .lang .thumb, .lang .opt { transition: none; } }
+
+
+/* ----- Profil ----- */
+#userbar .link + .link { margin-left: 0; }
+dialog#profile {
+  width: calc(100% - 32px); max-width: 520px; max-height: 88vh; overflow: auto;
+  margin: auto; padding: 22px 18px 18px; border: 1px solid var(--card-line); border-radius: 20px;
+  background: var(--card); color: var(--cream);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+dialog#profile[open] { animation: rise 0.3s both; }
+dialog#profile::backdrop { background: rgba(8, 14, 32, 0.72); backdrop-filter: blur(3px); }
+.pf-close {
+  position: absolute; top: 10px; right: 12px; width: 36px; height: 36px; border-radius: 50%;
+  border: 0; cursor: pointer; font-size: 1.5rem; line-height: 1; color: var(--cream); background: rgba(255, 244, 218, 0.1);
+}
+.pf-close:hover { background: rgba(255, 244, 218, 0.2); }
+.pf-head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding-right: 36px; }
+.pf-head h2 { margin: 0; font-size: 1.5rem; overflow-wrap: anywhere; }
+.av.big { width: 58px; height: 58px; margin: 0; font-size: 1.6rem; border-width: 3px; flex: none; }
+.pf-total {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 10px; padding: 14px 16px; border-radius: 16px;
+  background: linear-gradient(110deg, rgba(255, 200, 61, 0.2), var(--bg) 75%); border: 1px solid rgba(255, 200, 61, 0.5);
+}
+.pf-total svg { width: 46px; height: 46px; flex: none; }
+.pf-total b { display: block; font-family: var(--display); font-weight: 900; font-size: 2.3rem; line-height: 1; color: var(--gold); font-variant-numeric: tabular-nums; }
+.pf-total span { color: var(--muted); font-size: 0.85rem; font-weight: 800; }
+.pf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.pf-tile { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 14px; background: var(--bg); border: 1px solid var(--card-line); }
+.pf-tile b { font-family: var(--display); font-weight: 900; font-size: 1.6rem; line-height: 1.1; color: var(--gold); font-variant-numeric: tabular-nums; }
+.pf-tile span { color: var(--muted); font-size: 0.8rem; font-weight: 800; }
+dialog#profile h3 { margin: 18px 0 8px; font-size: 1rem; }
+dialog#profile .rarities { margin: 0; }
+dialog#profile .rarities span { background: var(--bg); animation: none; }
+.pf-note { margin: 16px 0 0; text-align: center; color: var(--muted); font-size: 0.8rem; }
+@media (max-width: 380px) { .pf-grid { gap: 8px; } .pf-tile { padding: 10px; } .pf-tile b { font-size: 1.3rem; } }
+@media (prefers-reduced-motion: reduce) { dialog#profile[open] { animation: none; } }
+
+
+/* ----- En-tête : icône de profil + interrupteur de langue ----- */
+.head-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.icon-btn {
+  display: grid; place-items: center; width: 40px; height: 40px; padding: 0; cursor: pointer; border-radius: 50%;
+  background: var(--card); border: 1px solid var(--line); color: var(--cream);
+  transition: background 0.15s, transform 0.08s, color 0.15s;
+}
+.icon-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.icon-btn:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+.icon-btn:active { transform: scale(0.94); }
+
+/* ----- Déconnexion (en bas du profil) ----- */
+.pf-logout { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); text-align: center; }
+.pf-logout .btn.ghost { width: 100%; min-height: 46px; font-size: 0.95rem; color: var(--muted); }
+.pf-logout .btn.ghost:hover { color: var(--cream); }
+#logout-confirm p { margin: 0 0 10px; font-weight: 800; }
+#logout-confirm .row .btn { flex: 1; min-height: 46px; font-size: 0.95rem; padding: 10px 12px; }
+.btn.danger { background: #ff7a6b; color: var(--ink); box-shadow: none; }
